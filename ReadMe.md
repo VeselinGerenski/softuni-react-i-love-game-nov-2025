@@ -7,5 +7,6 @@
 - [x] Add resources
 - [x] Add React-router `npm i react-router`
 - [x] Copy html from temp index.html into App.jsx(convert to jsx)
+- [x] Extract homepage components
 - [x] Setup React-router
 
