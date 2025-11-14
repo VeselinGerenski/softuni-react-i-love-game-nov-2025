@@ -14,3 +14,5 @@
 - [x] Add Dynamic catalog
 - [x] Dynamic home latest games
 - [x] Add details page
+- [x] Delete game
+- [x] Redirect to catalog
