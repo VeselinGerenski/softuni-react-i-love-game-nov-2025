@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import GameCard from "../game-card/GameCard.jsx";
 
-
 export default function Home() {
     const [latestGames, setLatestGames] = useState([]);
 
