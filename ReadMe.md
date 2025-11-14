@@ -17,3 +17,4 @@
 - [x] Delete game
 - [x] Redirect to catalog
 - [x] Add game
+- [x] Add edit game
