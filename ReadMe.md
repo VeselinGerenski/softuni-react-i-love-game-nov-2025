@@ -11,4 +11,5 @@
 - [x] Add BrowserRouter in main.js
 - [x] Add Routes in App.js
 - [x] Add Dynamic navigation 
-
+- [x] Add Dynamic catalog
+- [] Dynamic home latest games
