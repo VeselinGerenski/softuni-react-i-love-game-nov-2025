@@ -6,20 +6,31 @@ const BASE_URL = 'http://localhost:3030/jsonstore/games';
 export default function Catalog() {
     const [games, setGames] = useState([]);
 
+    // useEffect(() => {
+    //     (async () => {
+
+    //         try {
+    //             const response = await fetch(BASE_URL);
+    //             const result = await response.json();
+
+    //             setGames(Object.values(result));
+    //         } catch (err) {
+    //             alert(err.message)
+    //         }
+    //     })();
+    // }, []);
+
+
     useEffect(() => {
-        (async () => {
+        fetch('http://localhost:3030/jsonstore/games')
+            .then(response => response.json())
+            .then(result => {
 
-            try {
-                const response = await fetch(BASE_URL);
-                const result = await response.json();
-
-                setGames(Object.values(result));
-            } catch (err) {
-                alert(err.message)
-            }
-        })();
+                const games = Object.values(result)
+              
+                setGames(games)
+            })
     }, []);
-
     return (
         <section id="catalog-page">
             <h1>Catalog</h1>

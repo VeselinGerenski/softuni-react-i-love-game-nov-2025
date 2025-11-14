@@ -1,5 +1,8 @@
+import { Link } from "react-router";
+import Details from "../details/Details.jsx";
+
 export default function Game({
-    
+    _id,
     imageUrl,
     title,
     genre,
@@ -10,9 +13,9 @@ export default function Game({
             <div className="details-overlay">
                 <p className="name">{title}</p>
                 <p className="genre">{genre}</p>
-                <a href="#" className="details-button">
+                <Link to={`/games/${_id}/details`} className="details-button" onClick={<Details />}>
                     Details
-                </a>
+                </Link>
             </div>
         </div>
     )

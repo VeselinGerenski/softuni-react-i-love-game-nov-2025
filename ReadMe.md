@@ -12,4 +12,5 @@
 - [x] Add Routes in App.js
 - [x] Add Dynamic navigation 
 - [x] Add Dynamic catalog
-- [] Dynamic home latest games
+- [x] Dynamic home latest games
+- [x] Add details page
