@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import Details from "../details/Details.jsx";
 
-export default function Game({
+export default function GameCard({
     _id,
     imageUrl,
     title,

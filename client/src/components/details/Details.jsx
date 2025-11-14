@@ -12,7 +12,6 @@ export default function Details() {
       .catch(err => alert(err.message))
   }, [gameId]);
 
-
   return (
     <section id="game-details">
       <h1>Game Details</h1>
