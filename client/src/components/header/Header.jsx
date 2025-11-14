@@ -1,6 +1,5 @@
 export default function Header() {
     return (
-        <h1>
         <header>
             {/* Navigation */}
             <nav>
@@ -21,6 +20,5 @@ export default function Header() {
                 </div>
             </nav>
         </header>
-         </h1>
     )
 };
