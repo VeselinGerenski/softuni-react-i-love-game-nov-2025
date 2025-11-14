@@ -12,7 +12,6 @@ export default function Home() {
                 const resultGames = Object.values(result)
                     .sort((a, b) => b._createdOn - a._createdOn)
                     .slice(0, 3);
-                console.log(resultGames);
 
                 setLatestGames(resultGames)
             })
@@ -29,7 +28,7 @@ export default function Home() {
                 <h1>Latest Games</h1>
                 <div id="latest-wrap">
                     <div className="home-container">
-                        {latestGames.length === 0 && <p class="no-articles">No games yet</p>}
+                        {latestGames.length === 0 && <p className="no-articles">No games yet</p>}
                         {latestGames.map(game => <Game key={game._id} {...game} />)}
                     </div>
                 </div>
