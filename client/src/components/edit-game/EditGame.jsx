@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import request from "../../utils/request.js";
 
 const baseUrl = 'http://localhost:3030/jsonstore/games';
 
@@ -7,6 +8,7 @@ export default function GameEdit() {
     const navigate = useNavigate();
     const { gameId } = useParams();
 
+//Sets a starting state
     const [formValues, setFormValues] = useState({
         title: "",
         genre: "",
@@ -16,18 +18,17 @@ export default function GameEdit() {
         summary: "",
     });
 
-
+//Fills the form with the data
     useEffect(() => {
         fetch(`${baseUrl}/${gameId}`)
             .then(response => response.json())
-            .then(game => {
-                setFormValues(game
-                   
-                );
+            .then(result => {
+                setFormValues(result);
             });
 
     }, [gameId]);
 
+//Update state from user input
     const changeHandler = (e) => {
         setFormValues((state) => ({
             ...state,
@@ -35,20 +36,20 @@ export default function GameEdit() {
         }));
     };
 
-
     const formValuesHandler = async (e) => {
         e.preventDefault();
 
         try {
-            await fetch(`${baseUrl}/${gameId}`, {
-                method: 'PUT',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify(formValues),
-            })
-            navigate(`/games/${gameId}/details`);
+            // await fetch(`${baseUrl}/${gameId}`, {
+            //     method: 'PUT',
+            //     headers: {
+            //         'content-type': 'application/json'
+            //     },
+            //     body: JSON.stringify(formValues),
+            // })
+            await request(`${baseUrl}/${gameId}`, 'PUT', formValues)
 
+            navigate(`/games/${gameId}/details`);
         } catch (err) {
             alert("Error updating game: " + err.message);
         }

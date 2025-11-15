@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router";
+import request from "../../utils/request.js";
 
 
 const BASE_URL = 'http://localhost:3030/jsonstore/games';
@@ -18,14 +19,16 @@ export default function GameCreate() {
         data.players = Number(data.players)
         data.createdOn = Date.now();
 
-        const response = await fetch(BASE_URL, {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(data),
-        })
-        const result = await response.json();
+        // const response = await fetch(BASE_URL, {
+        //     method: 'POST',
+        //     headers: {
+        //         'content-type': 'application/json'
+        //     },
+        //     body: JSON.stringify(data),
+        // })
+        // const result = await response.json();
+
+        const result = await request(BASE_URL, 'POST', data);
 
         console.log(result);
         
