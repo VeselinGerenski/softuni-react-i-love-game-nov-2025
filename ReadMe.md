@@ -18,3 +18,4 @@
 - [x] Redirect to catalog
 - [x] Add game
 - [x] Add edit game
+- [x] Add requester

@@ -4,8 +4,8 @@ import Footer from "./components/footer/Footer.jsx";
 import Home from "./components/home/Home.jsx";
 import Catalog from "./components/catalog/Catalog.jsx";
 import Details from "./components/details/Details.jsx";
-import GameCreate from "./components/create-game/GameCreate.jsx";
-import GameEdit from "./components/edit-game/EditGame.jsx";
+import GameCreate from "./components/game-create/GameCreate.jsx";
+import GameEdit from "./components/game-edit/GameEdit.jsx";
 
 function App() {
     return (

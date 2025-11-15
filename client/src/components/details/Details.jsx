@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router"
+import request from "../../utils/request.js";
 
 const baseUrl = 'http://localhost:3030/jsonstore/games';
 
@@ -9,8 +10,8 @@ export default function Details() {
   const [game, setGame] = useState({})
 
   useEffect(() => {
-    fetch(`${baseUrl}/${gameId}`)
-      .then(response => response.json())
+    request(`${baseUrl}/${gameId}`)
+      // .then(response => response.json())
       .then(result => setGame(result))
       .catch(err => alert(err.message))
   }, [gameId]);
@@ -23,9 +24,7 @@ export default function Details() {
     }
 
     try {
-      await fetch(`${baseUrl}/${gameId}`, {
-        method: 'DELETE',
-      })
+      await request(`${baseUrl}/${gameId}`, 'DELETE')
       navigate('/games')
 
     } catch (err) {
