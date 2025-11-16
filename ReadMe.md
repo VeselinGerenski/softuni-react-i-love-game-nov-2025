@@ -10,6 +10,8 @@
 - [x] Add React-router `npm i react-router`
 - [x] Add BrowserRouter in main.js
 - [x] Add Routes in App.js
+
+## 
 - [x] Add Dynamic navigation 
 - [x] Add Dynamic catalog
 - [x] Dynamic home latest games
