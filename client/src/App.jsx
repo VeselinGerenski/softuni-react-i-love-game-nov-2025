@@ -11,12 +11,30 @@ import Login from "./components/login/Login.jsx";
 import { useState } from "react";
 
 function App() {
+    const [registeredUsers, setRegisteredUsers] = useState([])
     const [user, setUser] = useState(null);
 
-    const authHandler = (email) => {
-        setUser({
-            email,
-        });
+    const registerHandler = (email, password) => {
+        if (registeredUsers.some(user => user.email === email)) {
+            throw new Error("Email is already used");
+        }
+
+        setRegisteredUsers((state) => [...state, { email, password }])
+        //TODO login user after register
+
+    }
+
+    const loginHandler = (email, password) => {
+        const user = registeredUsers.find(u => u.email === email && u.password === password)
+        if (!user) {
+            throw new Error('Invalid username or password');
+        }
+
+        if (email !== user.email || password !== user.password) {
+            throw new Error('Invalid email or password');
+        }
+
+
     }
     return (
         <>
@@ -28,8 +46,8 @@ function App() {
                 <Route path="/games/:gameId/details" element={<Details />} />
                 <Route path="/games/create" element={<GameCreate />} />
                 <Route path="/games/:gameId/edit" element={<GameEdit />} />
-                <Route path="/register" element={<Register user={user} onRegister={authHandler} />} />
-                <Route path="/login" element={<Login onLogin={authHandler} />} />
+                <Route path="/register" element={<Register user={user} onRegister={registerHandler} />} />
+                <Route path="/login" element={<Login onLogin={loginHandler} />} />
             </Routes>
 
             <Footer />

@@ -5,7 +5,7 @@ export default function Register({
   onRegister,
 }) {
   const navigate = useNavigate();
-  
+
   const registerSubmit = (formData) => {
 
     const email = formData.get('email');
@@ -22,10 +22,10 @@ export default function Register({
     }
 
     // Register User
-    onRegister(email);
+    onRegister(email, password);
 
-    //TODO Redirect to home page
-    navigate('/')
+    // Redirect to home page
+    navigate('/');
 
   }
 
