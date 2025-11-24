@@ -8,7 +8,7 @@ export default function GameEdit() {
     const navigate = useNavigate();
     const { gameId } = useParams();
 
-//Sets a starting state
+    //Sets a starting state
     const [formValues, setFormValues] = useState({
         title: "",
         genre: "",
@@ -18,17 +18,20 @@ export default function GameEdit() {
         summary: "",
     });
 
-//Fills the form with the data
+    //Fills the form with the data
     useEffect(() => {
         request(`${baseUrl}/${gameId}`)
             // .then(response => response.json())
             .then(result => {
                 setFormValues(result);
-            });
+            })
+            .catch(err => {
+                alert(err.message);
+            })
 
     }, [gameId]);
 
-//Update state from user input
+    //Update state from user input
     const changeHandler = (e) => {
         setFormValues((formValues) => ({
             ...formValues,
@@ -36,17 +39,8 @@ export default function GameEdit() {
         }));
     };
 
-    const formValuesHandler = async (e) => {
-        e.preventDefault();
-
+    const formValuesHandler = async () => {
         try {
-            // await fetch(`${baseUrl}/${gameId}`, {
-            //     method: 'PUT',
-            //     headers: {
-            //         'content-type': 'application/json'
-            //     },
-            //     body: JSON.stringify(formValues),
-            // })
             await request(`${baseUrl}/${gameId}`, 'PUT', formValues)
 
             navigate(`/games/${gameId}/details`);
@@ -59,7 +53,7 @@ export default function GameEdit() {
         <>
             {/* add Page ( Only for logged-in users ) */}
             <section id="edit-page">
-                <form id="add-new-game" onSubmit={formValuesHandler}>
+                <form id="add-new-game" action={formValuesHandler}>
                     <div className="container">
                         <h1>Edit Game</h1>
                         <div className="form-group-half">

@@ -5,7 +5,6 @@ import request from "../../utils/request.js";
 const BASE_URL = 'http://localhost:3030/jsonstore/games';
 
 
-
 export default function GameCreate() {
     const navigate = useNavigate();
 
