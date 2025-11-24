@@ -1,10 +1,12 @@
+import { useNavigate } from "react-router";
 
 export default function Register({
-  user,
+
   onRegister,
 }) {
-
-   const registerSubmit = (formData) => {
+  const navigate = useNavigate();
+  
+  const registerSubmit = (formData) => {
 
     const email = formData.get('email');
     const password = formData.get('password');
@@ -23,7 +25,7 @@ export default function Register({
     onRegister(email);
 
     //TODO Redirect to home page
-
+    navigate('/')
 
   }
 
@@ -36,9 +38,6 @@ export default function Register({
           <div className="brand-logo" />
 
           <h1>Register</h1>
-
-          {user && <h2>You are already registered with {user.email}</h2>}
-
           <label htmlFor="email">Email:</label>
           <input
             type="email"
