@@ -1,63 +1,71 @@
-export default function Register() {
-   const registerSubmit = (formData) =>{
 
-    const email = formData.get(email);
-    const password = formData.get(password);
-    const confirmPassword = formData.get(confirmPassword);
+export default function Register({
+  user,
+  onRegister,
+}) {
 
-    //TODO Validation
-     if (!email || ! password) {
+   const registerSubmit = (formData) => {
+
+    const email = formData.get('email');
+    const password = formData.get('password');
+    const confirmPassword = formData.get('confirm-password');
+
+    // Validation
+    if (!email || !password) {
       return alert('Email and password are required');
-     }
+    }
 
-     if (password !== confirmPassword) {
+    if (password !== confirmPassword) {
       return alert('Password missmatch');
-     }
+    }
 
-    // TODO Register User
-
+    // Register User
+    onRegister(email);
 
     //TODO Redirect to home page
 
 
-   }
+  }
 
   return (
-    
-      // {/* Register Page ( Only for Guest users ) */}
-      <section id="register-page" className="content auth">
-        <form id="register" action={registerSubmit}>
-          <div className="container">
-            <div className="brand-logo" />
 
-            <h1>Register</h1>
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email" name="email"
-              placeholder="Your Email"
-            />
+    // {/* Register Page ( Only for Guest users ) */}
+    <section id="register-page" className="content auth">
+      <form id="register" action={registerSubmit}>
+        <div className="container">
+          <div className="brand-logo" />
 
-            <label htmlFor="pass">Password:</label>
-            <input
-              type="password"
-              name="password"
-              id="register-password"
-              placeholder="Password"
-            />
+          <h1>Register</h1>
 
-            <label htmlFor="con-pass">Confirm Password:</label>
-            <input
-              type="password"
-              name="confirm-password"
-              id="confirm-password"
-              placeholder="Repeat Password"
-            />
+          {user && <h2>You are already registered with {user.email}</h2>}
 
-            <input className="btn submit" type="submit" defaultValue="Register" />
-          </div>
-        </form>
-      </section>
-    
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            id="email" name="email"
+            placeholder="Your Email"
+          />
+
+          <label htmlFor="pass">Password:</label>
+          <input
+            type="password"
+            name="password"
+            id="register-password"
+            placeholder="Password"
+          />
+
+          <label htmlFor="con-pass">Confirm Password:</label>
+          <input
+            type="password"
+            name="confirm-password"
+            id="confirm-password"
+            placeholder="Repeat Password"
+          />
+
+          <input className="btn submit" type="submit" defaultValue="Register" />
+        </div>
+      </form>
+    </section>
+
   )
 };
