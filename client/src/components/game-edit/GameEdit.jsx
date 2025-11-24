@@ -20,8 +20,8 @@ export default function GameEdit() {
 
 //Fills the form with the data
     useEffect(() => {
-        fetch(`${baseUrl}/${gameId}`)
-            .then(response => response.json())
+        request(`${baseUrl}/${gameId}`)
+            // .then(response => response.json())
             .then(result => {
                 setFormValues(result);
             });
@@ -30,8 +30,8 @@ export default function GameEdit() {
 
 //Update state from user input
     const changeHandler = (e) => {
-        setFormValues((state) => ({
-            ...state,
+        setFormValues((formValues) => ({
+            ...formValues,
             [e.target.name]: e.target.value,
         }));
     };

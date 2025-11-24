@@ -16,8 +16,8 @@ export default function Header() {
 
                 {/* Guest users */}
                 <div id="guest">
-                    <Link to="#">Login</Link>
-                    <Link to="#">Register</Link>
+                    <Link to="/login">Login</Link>
+                    <Link to="/register">Register</Link>
                 </div>
             </nav>
         </header>
