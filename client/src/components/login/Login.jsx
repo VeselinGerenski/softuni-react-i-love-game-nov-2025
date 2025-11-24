@@ -26,7 +26,7 @@ export default function Login({
         <section id="login-page">
             <form id="login" action={submitAction}>
                 <div className="container">
-                    
+
                     <h1>Login</h1>
 
                     <label htmlFor="email">Email</label>
