@@ -1,13 +1,14 @@
 
 import { useNavigate } from "react-router";
 import useForm from "../../hooks/useForm.js";
+import { useContext } from "react";
+import UserContext from "../../contexts/userContext.js";
 
-export default function Register({
-  onRegister,
-}) {
+export default function Register() {
   const navigate = useNavigate();
+  const {registerHandler} = useContext(UserContext)
 
-  const registerHandler = (values) => {
+  const registerSubmitHandler = async (values) => {
     const { email, password, confirmPassword } = values;
 
     // Validation
@@ -16,7 +17,7 @@ export default function Register({
     }
     try {
       // Register User
-      onRegister(email, password);
+     await registerHandler(email, password);
 
       // Redirect to home page
       navigate('/');
@@ -25,7 +26,7 @@ export default function Register({
     }
   }
 
-  const { register, formAction, } = useForm(registerHandler, {
+  const { register, formAction, } = useForm(registerSubmitHandler, {
     email: '',
     password: '',
     confirmPassword: '',

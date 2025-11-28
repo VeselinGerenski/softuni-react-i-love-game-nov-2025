@@ -12,6 +12,7 @@ import Login from "./components/login/Login.jsx";
 
 import Logout from "./components/logout/Logout.jsx";
 import request from "./utils/request.js";
+import UserContext from "./contexts/userContext.js";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -49,8 +50,16 @@ function App() {
         setUser(null);
     }
 
+    const userContextValues = {
+        user,
+        isAuthenticated: !!user?.accessToken,
+        registerHandler,
+        loginHandler,
+        logoutHandler,
+    }
+
     return (
-        <>
+        <UserContext.Provider value={userContextValues}>
             <Header user={user} />
 
             <Routes>
@@ -65,7 +74,7 @@ function App() {
             </Routes>
 
             <Footer />
-        </>
+        </UserContext.Provider>
     )
 }
 
