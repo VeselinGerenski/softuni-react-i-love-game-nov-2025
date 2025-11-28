@@ -11,26 +11,34 @@ import Register from "./components/register/Register.jsx";
 import Login from "./components/login/Login.jsx";
 
 import Logout from "./components/logout/Logout.jsx";
+import request from "./utils/request.js";
 
 function App() {
-    const [registeredUsers, setRegisteredUsers] = useState([])
     const [user, setUser] = useState(null);
 
-    const registerHandler = (email, password) => {
-        if (registeredUsers.some(user => user.email === email)) {
-            throw new Error("Email is already used");
-        }
-
+    const registerHandler = async (email, password) => {
         const newUser = { email, password };
-
-        setRegisteredUsers((state) => [...state, newUser])
-
-        // login user after register
-        setUser(newUser);
+        // TODO Register API call
+        await fetch('http://localhost:3030/users/register', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newUser)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    alert('Register was not successfull')
+                }
+                return response.json();
+            })
+            .then(newUser => {
+                setUser(newUser);
+            })
+            .catch(err => alert(err.message))
     }
 
     const loginHandler = (email, password) => {
-        const user = registeredUsers.find(u => u.email === email && u.password === password)
         if (!user) {
             throw new Error('Invalid email or password');
         }
@@ -48,7 +56,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/games" element={<Catalog />} />
-                <Route path="/games/:gameId/details" element={<Details user={user}/>} />
+                <Route path="/games/:gameId/details" element={<Details user={user} />} />
                 <Route path="/games/create" element={<GameCreate />} />
                 <Route path="/games/:gameId/edit" element={<GameEdit />} />
                 <Route path="/register" element={<Register user={user} onRegister={registerHandler} />} />
