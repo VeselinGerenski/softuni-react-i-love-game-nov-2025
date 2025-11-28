@@ -11,9 +11,9 @@ const UserContext = createContext({
         _id: '',
         accessToken: '',
     },
-    registerHandler: async () => { },
-    loginHandler: async () => { },
-    logoutHandler: async () => { },
+    registerHandler() { },
+    loginHandler() { },
+    logoutHandler() { },
 })
 
 export function UserProvider({
@@ -42,15 +42,13 @@ export function UserProvider({
 
     const logoutHandler = async () => {
         try {
-            await request('/users/logout');
+            await request('/users/logout', 'GET', null, { accessToken: user.accessToken });
         } catch (err) {
-            alert(err.message)
-        }
-        finally {
-            setUser(null)
+            alert(err);
+        } finally {
+            setUser(null);
         }
     };
-
 
     const userContextValues = {
         user,

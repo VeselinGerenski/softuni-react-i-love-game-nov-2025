@@ -9,7 +9,7 @@ import GameEdit from "./components/game-edit/GameEdit.jsx";
 import Register from "./components/register/Register.jsx";
 import Login from "./components/login/Login.jsx";
 import Logout from "./components/logout/Logout.jsx";
-import UserContext from "./contexts/userContext.jsx";
+import UserContext from "./contexts/UserContext.jsx";
 import { useContext } from "react";
 
 
