@@ -4,9 +4,8 @@ import { useParams } from "react-router";
 
 export default function CommentCreate({
     user,
+    onCreate,
 }) {
-    console.log(user);
-    
     const { gameId } = useParams();
     const [comment, setComment] = useState('');
 
@@ -15,11 +14,19 @@ export default function CommentCreate({
     }
 
     const submitHandler = async () => {
-        await request('http://localhost:3030/jsonstore/comments', 'POST', {
-            author: user.email,
-            message: comment,
-            gameId: gameId,
-        })
+        try {
+            await request('http://localhost:3030/jsonstore/comments', 'POST', {
+                author: user.email,
+                message: comment,
+                gameId: gameId,
+            });
+
+            setComment('')
+            onCreate();
+
+        } catch (err) {
+            alert(err.message)
+        }
     }
 
     //TODO  Add Comment ( Only for logged-in users, which is not creators of the current game )}
@@ -34,6 +41,7 @@ export default function CommentCreate({
                     value={comment}
                     placeholder="Comment......"
                     disabled={!user}
+                    required
                 />
                 <input
                     className="btn submit"
