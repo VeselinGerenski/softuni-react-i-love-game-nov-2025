@@ -3,7 +3,6 @@ import { Link } from "react-router";
 export default function Header({
     user,
 }) {
-    console.log(user?.email);
 
     return (
         <header>
@@ -12,22 +11,18 @@ export default function Header({
                 <Link className="home" to="/"> <img src="./images/logo.png" alt="logo" /></Link>
                 <Link to="/games">Catalog</Link>
 
-              
                 {user ?
-                //   {/* Logged-in users */}
+                    //   {/* Logged-in users */}
                     <div id="user">
                         <Link to="/games/create">Add Game</Link>
                         <Link to="/logout">Logout</Link>
                     </div>
                     :
-                        //  {/* Guest users */}
+                    //  {/* Guest users */}
                     <div id="guest">
                         <Link to="/login">Login</Link>
                         <Link to="/register">Register</Link>
                     </div>}
-
-           
-
             </nav>
         </header>
     )

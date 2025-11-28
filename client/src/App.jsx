@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router";
-import { useState } from "react";
 import Header from "./components/header/Header.jsx";
 import Footer from "./components/footer/Footer.jsx";
 import Home from "./components/home/Home.jsx";
@@ -9,47 +8,16 @@ import GameCreate from "./components/game-create/GameCreate.jsx";
 import GameEdit from "./components/game-edit/GameEdit.jsx";
 import Register from "./components/register/Register.jsx";
 import Login from "./components/login/Login.jsx";
-
 import Logout from "./components/logout/Logout.jsx";
-import UserContext from "./contexts/userContext.js";
-import useFetch from "./hooks/useFetch.js";
+import UserContext from "./contexts/userContext.jsx";
+import { useContext } from "react";
+
 
 function App() {
-    const [user, setUser] = useState(null);
-    const { request } = useFetch();
-
-    const registerHandler = async (email, password) => {
-        const newUser = { email, password };
-
-        // Register API call
-        const result = await request('/users/register', 'POST', newUser)
-
-        // Log user after registration
-        setUser(result);
-    }
-
-    const loginHandler = async (email, password) => {
-        const result = await request('/users/login', 'POST', {email, password})
-
-        console.log(result);
-        
-        setUser(result);
-    }
-
-    const logoutHandler = () => {
-        setUser(null);
-    }
-
-    const userContextValues = {
-        user,
-        isAuthenticated: !!user?.accessToken,
-        registerHandler,
-        loginHandler,
-        logoutHandler,
-    }
+    const { user } = useContext(UserContext)
 
     return (
-        <UserContext.Provider value={userContextValues}>
+        <>
             <Header user={user} />
 
             <Routes>
@@ -64,7 +32,7 @@ function App() {
             </Routes>
 
             <Footer />
-        </UserContext.Provider>
+        </>
     )
 }
 
