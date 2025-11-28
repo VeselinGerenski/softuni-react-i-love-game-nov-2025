@@ -10,7 +10,7 @@ const UserContext = createContext({
         _id: '',
         accessToken: '',
     },
-    registerHandler() { },
+   async registerHandler() { },
     loginHandler() { },
     logoutHandler() { },
 })

@@ -11,39 +11,29 @@ import Register from "./components/register/Register.jsx";
 import Login from "./components/login/Login.jsx";
 
 import Logout from "./components/logout/Logout.jsx";
-import request from "./utils/request.js";
 import UserContext from "./contexts/userContext.js";
+import useFetch from "./hooks/useFetch.js";
 
 function App() {
     const [user, setUser] = useState(null);
+    const { request } = useFetch();
 
     const registerHandler = async (email, password) => {
         const newUser = { email, password };
-        // TODO Register API call
-        await fetch('http://localhost:3030/users/register', {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newUser)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    alert('Register was not successfull')
-                }
-                return response.json();
-            })
-            .then(newUser => {
-                setUser(newUser);
-            })
-            .catch(err => alert(err.message))
+
+        // Register API call
+        const result = await request('/users/register', 'POST', newUser)
+
+        // Log user after registration
+        setUser(result);
     }
 
-    const loginHandler = (email, password) => {
-        if (!user) {
-            throw new Error('Invalid email or password');
-        }
-        setUser(user);
+    const loginHandler = async (email, password) => {
+        const result = await request('/users/login', 'POST', {email, password})
+
+        console.log(result);
+        
+        setUser(result);
     }
 
     const logoutHandler = () => {
@@ -68,9 +58,9 @@ function App() {
                 <Route path="/games/:gameId/details" element={<Details user={user} />} />
                 <Route path="/games/create" element={<GameCreate />} />
                 <Route path="/games/:gameId/edit" element={<GameEdit />} />
-                <Route path="/register" element={<Register user={user} onRegister={registerHandler} />} />
-                <Route path="/login" element={<Login onLogin={loginHandler} />} />
-                <Route path="/logout" element={<Logout onLogout={logoutHandler} />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/logout" element={<Logout />} />
             </Routes>
 
             <Footer />
