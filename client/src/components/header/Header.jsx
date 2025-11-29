@@ -1,8 +1,8 @@
 import { Link } from "react-router";
+import  { useUserContext } from "../../contexts/UserContext.jsx";
 
-export default function Header({
-    user,
-}) {
+export default function Header() {
+    const { isAuthenticated } = useUserContext()
 
     return (
         <header>
@@ -11,7 +11,7 @@ export default function Header({
                 <Link className="home" to="/"> <img src="./images/logo.png" alt="logo" /></Link>
                 <Link to="/games">Catalog</Link>
 
-                {user ?
+                {isAuthenticated ?
                     //   {/* Logged-in users */}
                     <div id="user">
                         <Link to="/games/create">Add Game</Link>

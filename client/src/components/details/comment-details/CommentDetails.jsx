@@ -20,7 +20,6 @@ export default function CommentDetails({
             })
     }, [gameId, refresh])
 
-
     return (
         <div className="details-comments">
             <h2>Comments:</h2>

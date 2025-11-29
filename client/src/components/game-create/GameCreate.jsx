@@ -1,43 +1,41 @@
 import { useNavigate } from "react-router";
-import request from "../../utils/request.js";
-
-
-const BASE_URL = 'http://localhost:3030/jsonstore/games';
-
+import useForm from "../../hooks/useForm.js";
+import useRequest from "../../hooks/useRequest.js";
 
 export default function GameCreate() {
     const navigate = useNavigate();
+    const { request } = useRequest();
 
-    const createGameHandler = async (e) => {
-        e.preventDefault();
+    const createGameHandler = async (values) => {
+        const data = values;
 
-        const formData = new FormData(e.target);
+        data.players = Number(data.players);
+        data._createdOn = Date.now();
 
-        const data = Object.fromEntries(formData);
+        try {
+            await request('/data/games', 'POST', data)
 
-        data.players = Number(data.players)
-        data.createdOn = Date.now();
-
-        // const response = await fetch(BASE_URL, {
-        //     method: 'POST',
-        //     headers: {
-        //         'content-type': 'application/json'
-        //     },
-        //     body: JSON.stringify(data),
-        // })
-        // const result = await response.json();
-
-        const result = await request(BASE_URL, 'POST', data);
-
-        console.log(result);
-        
-        navigate('/games')
+            navigate('/games')
+        } catch (err) {
+            alert(err.message)
+        }
     }
+
+    const initialValues = {
+        title: '',
+        genre: '',
+        players: '',
+        imageUrl: '',
+        date: '',
+        summary: '',
+    }
+    const { register, formAction } = useForm(createGameHandler, initialValues)
+
     return (
         <>
             {/* add Page ( Only for logged-in users ) */}
             <section id="add-page">
-                <form id="add-new-game" onSubmit={createGameHandler}>
+                <form id="add-new-game" action={formAction}>
                     <div className="container">
                         <h1>Add New Game</h1>
                         <div className="form-group-half">
@@ -45,8 +43,9 @@ export default function GameCreate() {
                             <input
                                 type="text"
                                 id="gameName"
-                                name="title"
                                 placeholder="Enter game title..."
+                                {...register('title')}
+                                required
                             />
                         </div>
                         <div className="form-group-half">
@@ -54,8 +53,9 @@ export default function GameCreate() {
                             <input
                                 type="text"
                                 id="genre"
-                                name="genre"
                                 placeholder="Enter game genre..."
+                                {...register('genre')}
+                                required
                             />
                         </div>
                         <div className="form-group-half">
@@ -63,32 +63,39 @@ export default function GameCreate() {
                             <input
                                 type="number"
                                 id="activePlayers"
-                                name="players"
                                 min={0}
                                 placeholder={0}
+                                {...register('players')}
+                                required
                             />
                         </div>
                         <div className="form-group-half">
                             <label htmlFor="releaseDate">Release Date:</label>
-                            <input type="date" id="releaseDate" name="date" />
+                            <input
+                                type="date"
+                                id="releaseDate"
+                                {...register('date')}
+                                required
+                            />
                         </div>
                         <div className="form-group-full">
                             <label htmlFor="imageUrl">Image URL:</label>
                             <input
                                 type="text"
                                 id="imageUrl"
-                                name="imageUrl"
                                 placeholder="Enter image URL..."
+                                {...register('imageUrl')}
+                                required
                             />
                         </div>
                         <div className="form-group-full">
                             <label htmlFor="summary">Summary:</label>
                             <textarea
-                                name="summary"
                                 id="summary"
                                 rows={5}
                                 placeholder="Write a brief summary..."
-                                defaultValue={""}
+                                {...register('summary')}
+                                required
                             />
                         </div>
                         <input className="btn submit" type="submit" defaultValue="ADD GAME" />
@@ -96,6 +103,5 @@ export default function GameCreate() {
                 </form>
             </section>
         </>
-
     )
 };

@@ -9,21 +9,17 @@ import GameEdit from "./components/game-edit/GameEdit.jsx";
 import Register from "./components/register/Register.jsx";
 import Login from "./components/login/Login.jsx";
 import Logout from "./components/logout/Logout.jsx";
-import UserContext from "./contexts/UserContext.jsx";
-import { useContext } from "react";
-
 
 function App() {
-    const { user } = useContext(UserContext)
 
     return (
         <>
-            <Header user={user} />
+            <Header  />
 
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/games" element={<Catalog />} />
-                <Route path="/games/:gameId/details" element={<Details user={user} />} />
+                <Route path="/games/:gameId/details" element={<Details />} />
                 <Route path="/games/create" element={<GameCreate />} />
                 <Route path="/games/:gameId/edit" element={<GameEdit />} />
                 <Route path="/register" element={<Register />} />

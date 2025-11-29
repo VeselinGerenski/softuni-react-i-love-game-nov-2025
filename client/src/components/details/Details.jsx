@@ -3,12 +3,13 @@ import { Link, useNavigate, useParams } from "react-router"
 import request from "../../utils/request.js";
 import CommentCreate from "./comment-create/CommentCreate.jsx";
 import CommentDetails from "./comment-details/CommentDetails.jsx";
+import { useUserContext } from "../../contexts/userContext.jsx";
 
 const baseUrl = 'http://localhost:3030/jsonstore/games';
 
-export default function Details({
-  user,
-}) {
+export default function Details() {
+
+  const { isAuthenticated, user } = useUserContext()
   const navigate = useNavigate();
   const { gameId } = useParams();
   const [game, setGame] = useState({});
@@ -82,7 +83,7 @@ export default function Details({
         <CommentDetails refresh={refresh} />
       </div>
 
-      {user && <CommentCreate user={user} onCreate={refreshHandler} />}
+      {isAuthenticated && <CommentCreate user={user} onCreate={refreshHandler} />}
     </section>
   )
 };

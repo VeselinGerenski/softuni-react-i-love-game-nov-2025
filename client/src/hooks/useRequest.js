@@ -1,10 +1,9 @@
-import { useContext } from "react";
-import UserContext from "../contexts/UserContext.jsx";
+import { useUserContext } from "../contexts/userContext.jsx";
 
 const baseurl = 'http://localhost:3030'
 
 export default function useRequest() {
-    const {user, isAuthenticated} = useContext(UserContext);
+    const {user, isAuthenticated} = useUserContext()
 
     const request = async (url, method, data, config = {}) => {
         let options = {};
