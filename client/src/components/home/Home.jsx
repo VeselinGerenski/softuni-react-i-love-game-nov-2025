@@ -1,23 +1,17 @@
 import { useEffect, useState } from "react"
 import GameCard from "../game-card/GameCard.jsx";
-import request from "../../utils/request.js";
-
-const baseUrl = 'http://localhost:3030/jsonstore/games'
+import useRequest from "../../hooks/useRequest.js";
 
 export default function Home() {
+    const { request } = useRequest()
     const [latestGames, setLatestGames] = useState([]);
-
+    
     useEffect(() => {
-        request(baseUrl)
-            // .then(response => response.json())
+        request('/data/games?sortBy=_createdOn%20desc&pageSize=3')
             .then(result => {
-                const resultGames = Object.values(result)
-                    .sort((a, b) => b._createdOn - a._createdOn)
-                    .slice(0, 3);
-
-                setLatestGames(resultGames)
+                setLatestGames(result)
             })
-    }, []);
+    }, [request])
 
     return (
         <section id="welcome-world">

@@ -1,47 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
-import request from "../../utils/request.js";
-
-const baseUrl = 'http://localhost:3030/jsonstore/games';
+import useRequest from "../../hooks/useRequest.js";
+import useForm from "../../hooks/useForm.js";
 
 export default function GameEdit() {
     const navigate = useNavigate();
     const { gameId } = useParams();
+    const { request } = useRequest();
 
-    //Sets a starting state
-    const [formValues, setFormValues] = useState({
-        title: "",
-        genre: "",
-        imageUrl: "",
-        date: "",
-        players: "",
-        summary: "",
-    });
-
-    //Fills the form with the data
-    useEffect(() => {
-        request(`${baseUrl}/${gameId}`)
-            // .then(response => response.json())
-            .then(result => {
-                setFormValues(result);
-            })
-            .catch(err => {
-                alert(err.message);
-            })
-
-    }, [gameId]);
-
-    //Update state from user input
-    const changeHandler = (e) => {
-        setFormValues((formValues) => ({
-            ...formValues,
-            [e.target.name]: e.target.value,
-        }));
-    };
-
-    const formValuesHandler = async () => {
+    const editGameHandler = async (values) => {
         try {
-            await request(`${baseUrl}/${gameId}`, 'PUT', formValues)
+            await request(`/data/games/${gameId}`, 'PUT', values)
 
             navigate(`/games/${gameId}/details`);
         } catch (err) {
@@ -49,11 +18,31 @@ export default function GameEdit() {
         }
     }
 
+    const { register, formAction, setValues } = useForm(editGameHandler, {
+        title: "",
+        genre: "",
+        imageUrl: "",
+        date: "",
+        players: "",
+        summary: "",
+    })
+
+    useEffect(() => {
+        request(`/data/games/${gameId}`)
+            .then(result => {
+                setValues(result);
+            })
+            .catch(err => {
+                alert(err.message);
+            })
+
+    }, [gameId,request,setValues]);
+
     return (
         <>
             {/* add Page ( Only for logged-in users ) */}
             <section id="edit-page">
-                <form id="add-new-game" action={formValuesHandler}>
+                <form id="add-new-game" action={formAction}>
                     <div className="container">
                         <h1>Edit Game</h1>
                         <div className="form-group-half">
@@ -61,10 +50,9 @@ export default function GameEdit() {
                             <input
                                 type="text"
                                 id="gameName"
-                                name="title"
                                 placeholder="Enter game title..."
-                                value={formValues.title}
-                                onChange={changeHandler}
+                                {...register('title')}
+                                required
                             />
                         </div>
                         <div className="form-group-half">
@@ -72,10 +60,9 @@ export default function GameEdit() {
                             <input
                                 type="text"
                                 id="genre"
-                                name="genre"
                                 placeholder="Enter game genre..."
-                                value={formValues.genre}
-                                onChange={changeHandler}
+                                {...register('genre')}
+                                required
                             />
                         </div>
                         <div className="form-group-half">
@@ -83,11 +70,10 @@ export default function GameEdit() {
                             <input
                                 type="number"
                                 id="activePlayers"
-                                name="players"
                                 min={0}
                                 placeholder={0}
-                                value={formValues.players}
-                                onChange={changeHandler}
+                                {...register('players')}
+                                required
                             />
                         </div>
                         <div className="form-group-half">
@@ -95,9 +81,8 @@ export default function GameEdit() {
                             <input
                                 type="date"
                                 id="releaseDate"
-                                name="date"
-                                value={formValues.date}
-                                onChange={changeHandler}
+                                {...register('date')}
+                                required
                             />
                         </div>
                         <div className="form-group-full">
@@ -105,21 +90,19 @@ export default function GameEdit() {
                             <input
                                 type="text"
                                 id="imageUrl"
-                                name="imageUrl"
                                 placeholder="Enter image URL..."
-                                value={formValues.imageUrl}
-                                onChange={changeHandler}
+                                {...register('imageUrl')}
+                                required
                             />
                         </div>
                         <div className="form-group-full">
                             <label htmlFor="summary">Summary:</label>
                             <textarea
-                                name="summary"
                                 id="summary"
                                 rows={5}
                                 placeholder="Write a brief summary..."
-                                value={formValues.summary}
-                                onChange={changeHandler}
+                                {...register('summary')}
+                                required
                             />
                         </div>
                         <input className="btn submit" type="submit" value="EDIT GAME" />

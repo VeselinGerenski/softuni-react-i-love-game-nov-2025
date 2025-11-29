@@ -1,24 +1,27 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router"
-import request from "../../../utils/request.js";
+import useRequest from "../../../hooks/useRequest.js";
 
 export default function CommentDetails({
     refresh,
 }) {
     const [comments, setComments] = useState([])
     const { gameId } = useParams();
+    const { request } = useRequest();
+
+    const urlParams = useMemo(() => {
+        return new URLSearchParams({
+            where: `gameId="${gameId}"`,
+            load: 'author=_ownerId:users'
+        });
+    }, [gameId]);
 
     useEffect(() => {
-        request('http://localhost:3030/jsonstore/comments')
+        request(`/data/comments?${urlParams.toString()}`)
             .then(result => {
-                const commentsArr = Object.values(result);
-
-                const gameComments = commentsArr.filter(
-                    comment => comment.gameId === gameId
-                );
-                setComments(gameComments)
+                setComments(result)
             })
-    }, [gameId, refresh])
+    }, [gameId, refresh, request,urlParams])
 
     return (
         <div className="details-comments">
@@ -29,7 +32,7 @@ export default function CommentDetails({
 
                 {comments.map(comment => (
                     <li key={comment._id} className="comment">
-                        <p> {comment.author} : {comment.message}</p>
+                        <p> {comment.author?.email} : {comment.message}</p>
                     </li>
                 ))}
             </ul>

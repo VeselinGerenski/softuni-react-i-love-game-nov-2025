@@ -7,14 +7,13 @@ export default function Catalog() {
     const { request } = useRequest()
 
     useEffect(() => {
-        (async () => {
-            try {
-              const result = await request('/data/games');
-                 setGames(result)
-            } catch (err) {
+        request('/data/games')
+            .then(result => {
+                setGames(result)
+            })
+            .catch(err => {
                 alert(err.message)
-            }
-        })();
+            })
     }, [request]);
 
     return (

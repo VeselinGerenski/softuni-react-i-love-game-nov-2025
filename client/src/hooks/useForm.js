@@ -22,10 +22,14 @@ export default function useForm(callback, initialValues) {
         }
     }
 
+  const reset = () => setValues(initialValues);
+
     return {
         values,
+        setValues,
         changeHandler,
         formAction,
-        register
+        register,
+        reset
     }
 };
