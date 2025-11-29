@@ -1,36 +1,22 @@
 import { useEffect, useState } from "react"
 import GameCard from "../game-card/GameCard.jsx";
-
-
-const BASE_URL = 'http://localhost:3030/jsonstore/games';
+import useRequest from "../../hooks/useRequest.js";
 
 export default function Catalog() {
     const [games, setGames] = useState([]);
-
-    // useEffect(() => {
-    //     (async () => {
-
-    //         try {
-    //             const response = await fetch(BASE_URL);
-    //             const result = await response.json();
-
-    //             setGames(Object.values(result));
-    //         } catch (err) {
-    //             alert(err.message)
-    //         }
-    //     })();
-    // }, []);
+    const { request } = useRequest()
 
     useEffect(() => {
-        fetch(BASE_URL)
-            .then(response => response.json())
-            .then(result => {
+        (async () => {
+            try {
+              const result = await request('/data/games');
+                 setGames(result)
+            } catch (err) {
+                alert(err.message)
+            }
+        })();
+    }, [request]);
 
-                const games = Object.values(result)
-
-                setGames(games)
-            })
-    }, []);
     return (
         <section id="catalog-page">
             <h1>Catalog</h1>
